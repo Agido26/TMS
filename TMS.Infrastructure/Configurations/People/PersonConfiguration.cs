@@ -9,7 +9,7 @@ namespace TMS.Infrastructure.Configurations.People
     {
         public void Configure(EntityTypeBuilder<Person> builder)
         {
-            
+
         }
     }
 }

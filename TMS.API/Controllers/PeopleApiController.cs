@@ -39,7 +39,7 @@ namespace TMS.API.Controllers
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-        public async Task<ActionResult<IEnumerable<PersonDTO>>> UpdatePerson(PersonToUpdateDTO personToUpdate)
+        public async Task<ActionResult<PersonDTO>> UpdatePerson(PersonToUpdateDTO personToUpdate)
         {
             if (personToUpdate is null || string.IsNullOrWhiteSpace(personToUpdate.FirstName) || string.IsNullOrWhiteSpace(personToUpdate.LastName)
                 || string.IsNullOrWhiteSpace(personToUpdate.Email) || personToUpdate.Age < 18)
