@@ -19,22 +19,20 @@ namespace TMS.API.Controllers
         [ProducesResponseType(StatusCodes.Status201Created)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-        public async Task<ActionResult<PersonDTO>> AddPerson(PersonToAddDTO newPerson)
+        public async Task<ActionResult<PersonDTO>> AddPerson(PersonToAddDTO personToAdd)
         {
-            if (newPerson is null || string.IsNullOrWhiteSpace(newPerson.FirstName) || string.IsNullOrWhiteSpace(newPerson.LastName) 
-                || string.IsNullOrWhiteSpace(newPerson.Email) || newPerson.Age < 18)
+            if (personToAdd is null || string.IsNullOrWhiteSpace(personToAdd.FirstName) || string.IsNullOrWhiteSpace(personToAdd.LastName) 
+                || string.IsNullOrWhiteSpace(personToAdd.Email) || personToAdd.Age < 18)
             {
                 return BadRequest($"البيانات المدخلة غير صحيحة");
             }
 
-            var newId = await _personService.AddAsync(newPerson);
+            var newId = await _personService.AddAsync(personToAdd);
+            var created = await _personService.GetByIdAsync(newId);
 
-            if (newId is not null)
-            {
-                return CreatedAtRoute("GetPersonById", new { id = newId }, newPerson);
-            }
-
-            return Problem("حدثت مشكلة عند الإتصال بالخادك");
+            return created is null
+                ? Problem("حدثت مشكلة عند الإتصال بالخادك")
+                : CreatedAtRoute("GetPersonById", new { id = newId }, created);
         }
 
         [HttpPut("UpdatePerson")]
@@ -87,16 +85,17 @@ namespace TMS.API.Controllers
 
             var personDTO = await _personService.GetByIdAsync(id);
 
-            return personDTO is not null
-                ? Ok(personDTO)
-                : NotFound("لم يتم العثور على الطالب");
+            return personDTO is null
+                ? NotFound("لم يتم العثور على الشخص")
+                : Ok(personDTO);
         }
 
         [HttpGet("GetAllPeople")]
         [ProducesResponseType(StatusCodes.Status200OK)]
-        public ActionResult<IEnumerable<PersonDTO>> GetAllPersons()
+        public async Task<ActionResult<IEnumerable<PersonDTO>>> GetAllPersons()
         {
-            return Ok(_personService.GetAllAsync());
+            var result = await _personService.GetAllAsync();
+            return Ok(result);
         }
 
     }

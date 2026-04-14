@@ -9,7 +9,7 @@ namespace TMS.Application
     {
         public static IServiceCollection AddApplication(this IServiceCollection services)
         {
-            services.AddScoped<PersonService>();
+            services.AddScoped<IPersonService, PersonService>();
 
             return services;
         }

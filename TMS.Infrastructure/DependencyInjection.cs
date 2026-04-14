@@ -1,4 +1,5 @@
 ﻿using System;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using TMS.Application.Interfaces.People;
 using TMS.Infrastructure.Persistence;
@@ -8,9 +9,11 @@ namespace TMS.Infrastructure
 {
     public static class DependencyInjection
     {
-        public static IServiceCollection AddInfrastructure(this IServiceCollection services)
+        public static IServiceCollection AddInfrastructure(this IServiceCollection services, string connection)
         {
-            services.AddScoped<AppDbContext>();
+            services.AddDbContext<AppDbContext>(options =>
+                options.UseSqlServer(connection));
+
             services.AddScoped<IPersonRepository, PersonRepository>();
 
             return services;

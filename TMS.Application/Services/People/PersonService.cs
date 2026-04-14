@@ -14,7 +14,7 @@ namespace TMS.Application.Services.People
             _repo = repo;
         }
 
-        public async Task<int?> AddAsync(PersonToAddDTO dto)
+        public async Task<int> AddAsync(PersonToAddDTO dto)
         {
             var person = new Person
             {
@@ -34,7 +34,7 @@ namespace TMS.Application.Services.People
 
             if (person is null)
             {
-                throw new Exception("لم يتم العثور على الشخص");
+                return false;
             }
 
             person.FirstName = dto.FirstName;
@@ -50,32 +50,26 @@ namespace TMS.Application.Services.People
         {
             var person = await _repo.GetByIdAsync(id);
 
-            if (person is null)
-            {
-                throw new Exception("لم يتم العثور على الشخص");
-            }
-
-            return await _repo.DeleteAsync(person);
+            return person is not null && await _repo.DeleteAsync(person);
         }
 
         public async Task<PersonDTO?> GetByIdAsync(int id)
         {
             var person = await _repo.GetByIdAsync(id);
 
-            return person is not null 
-                ? MapToDTO(person) 
-                : null;
+            return person is null 
+                ? null 
+                : MapToDTO(person);
         }
 
         public async Task<IEnumerable<PersonDTO>> GetAllAsync()
         {
-            return _repo.GetAllAsync()
-                .Result
-                .Select(person => MapToDTO(person))
-                .ToList();
+            var people = await _repo.GetAllAsync();
+
+            return people.Select(MapToDTO);
         }
 
-        internal PersonDTO MapToDTO(Person person)
+        private static PersonDTO MapToDTO(Person person)
         {
             return new PersonDTO
             {

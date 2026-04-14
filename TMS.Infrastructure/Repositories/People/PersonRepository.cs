@@ -10,35 +10,29 @@ namespace TMS.Infrastructure.Repositories.People
     {
         private readonly AppDbContext _context;
 
-        public PersonRepository(AppDbContext context) 
+        public PersonRepository(AppDbContext context)
         {
             _context = context;
         }
 
-        public async Task<int?> AddAsync(Person person)
+        public async Task<int> AddAsync(Person person)
         {
-            _context.People.Add(person);
+            await _context.People.AddAsync(person);
+            await _context.SaveChangesAsync();
 
-            if (await _context.SaveChangesAsync() > 0)
-            {
-                return _context.People.Max(person => person.Id);
-            }
+            return person.Id;
+        }
 
-            return null;
+        public async Task<bool> UpdateAsync(Person person)
+        {
+            _context.People.Update(person);
+            return await _context.SaveChangesAsync() > 0;
         }
 
         public async Task<bool> DeleteAsync(Person person)
         {
             _context.People.Remove(person);
-
             return await _context.SaveChangesAsync() > 0;
-        }
-
-        public async Task<IEnumerable<Person>> GetAllAsync()
-        {
-            return _context.People
-                .Where(x => x.Id > 0)
-                .ToList();
         }
 
         public async Task<Person?> GetByIdAsync(int id)
@@ -46,11 +40,9 @@ namespace TMS.Infrastructure.Repositories.People
             return await _context.People.FindAsync(id);
         }
 
-        public async Task<bool> UpdateAsync(Person person)
+        public async Task<IEnumerable<Person>> GetAllAsync()
         {
-            _context.People.Update(person);
-
-            return await _context.SaveChangesAsync() > 0;
+            return await _context.People.ToListAsync();
         }
 
     }
