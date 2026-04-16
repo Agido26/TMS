@@ -1,7 +1,9 @@
 ﻿using System;
 using Microsoft.Extensions.DependencyInjection;
+using TMS.Application.Interfaces.Accounts;
 using TMS.Application.Interfaces.People;
 using TMS.Application.Interfaces.Users;
+using TMS.Application.Services.Accounts;
 using TMS.Application.Services.People;
 using TMS.Application.Services.Users;
 
@@ -13,6 +15,7 @@ namespace TMS.Application
         {
             services.AddScoped<IPersonService, PersonService>();
             services.AddScoped<IUserService, UserService>();
+            services.AddScoped<IAccountService, AccountService>();
 
             return services;
         }
