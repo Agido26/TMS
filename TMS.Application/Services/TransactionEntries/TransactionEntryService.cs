@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using TMS.Application.DTOs.TransactionEntries;
 using TMS.Application.Interfaces.TransactionEntries;
+using TMS.Application.Services.Transactions;
 using TMS.Domain.Entities.TransactionEntries;
 using TMS.Domain.Enums.Transactions;
 
@@ -42,17 +43,6 @@ namespace TMS.Application.Services.TransactionEntries
             return DTOList;
         }
 
-        public async Task<IEnumerable<TransactionEntryDTO>> GetAllByAccountIdAsync(int AccountId)
-        {
-            var Entries = await _repo.GetAllByAccountIdAsync(AccountId);
-            List<TransactionEntryDTO> DTOList = new List<TransactionEntryDTO>();
-
-            foreach (var Entry in Entries)
-            {
-                DTOList.Add(_MapToDTO(Entry));
-            }
-            return DTOList;
-        }
 
         public async Task<TransactionEntryDTO?> GetByIdAsync(int Id)
         {
@@ -69,7 +59,7 @@ namespace TMS.Application.Services.TransactionEntries
             {
                 Id = Entry.Id,
                 AccountID = Entry.AccountId,
-                TransactionID = Entry.TransactionId,
+                Transaction = TransactionService.MapToDTO(Entry.Transaction),
                 EntryType = Entry.EntryType
             };
 

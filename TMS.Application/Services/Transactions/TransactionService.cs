@@ -43,17 +43,17 @@ namespace TMS.Application.Services.Transactions
             return _repo.TransferAsync(dto);
         }
 
-        public async Task<int?> DepositAsync(DepositDTO dto)
+        public async Task<int?> DepositAsync(DepositWithdrawDTO dto)
         {
             return await _repo.DepositAsync(dto);
         }
 
-        public async Task<int?> WithdrawAsync(WithdrawDTO dto)
+        public async Task<int?> WithdrawAsync(DepositWithdrawDTO dto)
         {
             return await _repo.WithdrawAsync(dto);
         }
 
-        private TransactionDTO MapToDTO(Transaction transaction)
+        public static TransactionDTO MapToDTO(Transaction transaction)
         {
             return new TransactionDTO()
             {

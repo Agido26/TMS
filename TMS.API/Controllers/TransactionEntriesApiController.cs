@@ -48,16 +48,6 @@ namespace TMS.API.Controllers
 
         }
 
-        [HttpGet("GetAllByAccountId", Name = "GetTransactionEntryByAccountId")]
-        [ProducesResponseType(StatusCodes.Status200OK)]
-        public async Task<ActionResult<IEnumerable<TransactionEntryDTO>>> GetAllByAccountId(int AccountId)
-        {
-
-            var result = await _EntryService.GetAllByAccountIdAsync(AccountId);
-
-            return Ok(result);
-
-        }
 
         [HttpGet("GetAllFiltered", Name = "GetTransactionEntryByAccountId")]
         [ProducesResponseType(StatusCodes.Status200OK)]

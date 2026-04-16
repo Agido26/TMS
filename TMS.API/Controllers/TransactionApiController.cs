@@ -54,7 +54,7 @@ namespace TMS.API.Controllers
         [ProducesResponseType(StatusCodes.Status201Created)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-        public async Task<ActionResult<TransactionDTO>> AddDeposit(DepositDTO dto)
+        public async Task<ActionResult<TransactionDTO>> AddDeposit(DepositWithdrawDTO dto)
         {
 
             int? NewId = await _TransactionService.DepositAsync(dto);
@@ -75,7 +75,7 @@ namespace TMS.API.Controllers
         [ProducesResponseType(StatusCodes.Status201Created)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-        public async Task<ActionResult<TransactionDTO>> AddWithdraw(WithdrawDTO dto)
+        public async Task<ActionResult<TransactionDTO>> AddWithdraw(DepositWithdrawDTO dto)
         {
             int? NewId = await _TransactionService.WithdrawAsync(dto);
             if (NewId is null)

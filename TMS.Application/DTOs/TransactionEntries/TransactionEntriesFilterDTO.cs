@@ -10,6 +10,6 @@ namespace TMS.Application.DTOs.TransactionEntries
     public class TransactionEntriesFilterDTO
     {
         public required int AccountId { get; set; }
-        public required TransactionType TransactionType { get; set; } ;
+        public required TransactionType? TransactionType { get; set; } = null;
     }
 }

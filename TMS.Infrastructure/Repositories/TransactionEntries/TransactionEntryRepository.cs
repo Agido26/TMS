@@ -27,15 +27,14 @@ namespace TMS.Infrastructure.Repositories.TransactionEntries
             return await _Context.TransactionEntries.ToListAsync();
         }
 
-        public async Task<IEnumerable<TransactionEntry>> GetAllByAccountIdAsync(int AccountId)
-        {
-            return await _Context.TransactionEntries.Where(x => x.AccountId == AccountId).ToListAsync();
-        }
-
         public async Task<IEnumerable<TransactionEntry>> GetAllFilteredAsync(TransactionEntriesFilterDTO dto)
         {
+            if (dto.TransactionType.HasValue)
+            {
+                return await _Context.TransactionEntries.Where(x => (x.AccountId == dto.AccountId) && (x.Transaction.Type == dto.TransactionType)).ToListAsync();
+            }
 
-            return await _Context.TransactionEntries.Where(x => (x.AccountId == dto.AccountId) && (x.Transaction.Type == dto.TransactionType)).ToListAsync();
+            return await _Context.TransactionEntries.Where(x => (x.AccountId == dto.AccountId)).ToListAsync();
           
 
         }

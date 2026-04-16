@@ -102,7 +102,7 @@ namespace TMS.Infrastructure.Repositories.Transactions
             return NewTransactionId;
         }
 
-        public async Task<int?> WithdrawAsync(WithdrawDTO dto)
+        public async Task<int?> WithdrawAsync(DepositWithdrawDTO dto)
         {
             using var transaction = await _Context.Database.BeginTransactionAsync();
             int? NewTransactionId = null;
@@ -136,7 +136,7 @@ namespace TMS.Infrastructure.Repositories.Transactions
             return NewTransactionId;
         }
 
-        public async Task<int?> DepositAsync(DepositDTO dto)
+        public async Task<int?> DepositAsync(DepositWithdrawDTO dto)
         {
             using var transaction = await _Context.Database.BeginTransactionAsync();
             int? NewTransactionId = null;
