@@ -17,7 +17,12 @@ namespace TMS.Infrastructure.Repositories.Accounts
 
         public async Task<int> AddAsync(Account account)
         {
-            if (account is null) return -1;
+            if (account is null || account.Person is null) return -1;
+
+            await _context.People
+                .AddAsync(account.Person);
+
+            account.PersonId = account.Person.Id;
 
             await _context.Accounts
                 .AddAsync(account);
@@ -30,6 +35,11 @@ namespace TMS.Infrastructure.Repositories.Accounts
 
         public async Task<bool> UpdateAsync(Account account)
         {
+            if (account is null || account.Person is null) return false;
+
+            _context.People
+                .Update(account.Person);
+
             _context.Accounts
                 .Update(account);
 
@@ -39,11 +49,23 @@ namespace TMS.Infrastructure.Repositories.Accounts
 
         public async Task<bool> DeleteAsync(Account account)
         {
-            _context.Accounts
-                .Remove(account);
+            if (account is null || account.Person is null) return false;
 
-            return await _context
-                .SaveChangesAsync() > 0;
+            try
+            {
+                _context.People
+                    .Remove(account.Person);
+
+                _context.Accounts
+                    .Remove(account);
+
+                return await _context
+                    .SaveChangesAsync() > 0;
+            }
+            catch
+            {
+                return false;
+            }
         }
 
         public async Task<Account?> GetByIdAsync(int id)
@@ -78,6 +100,9 @@ namespace TMS.Infrastructure.Repositories.Accounts
             if (account is null) return false;
 
             account.Password = newPassword;
+
+            _context.Accounts
+                .Update(account);
 
             return await _context
                 .SaveChangesAsync() > 0;

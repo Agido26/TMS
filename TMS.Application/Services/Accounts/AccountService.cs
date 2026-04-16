@@ -26,17 +26,16 @@ namespace TMS.Application.Services.Accounts
                 DateOfBirth = dto.DateOfBirth
             };
 
+            // هناك قيد على الرصيد يمنع الصفر لذلك جعلته 1
             var account = new Account
             {
                 Person = person,
-                Number = Guid
-                    .NewGuid()
-                    .ToString()
-                    .Substring(0, 10)
-                    .ToUpper(),
+                Number = DateTime.Now.Ticks.ToString()[^10..],
                 Password = dto.Password,
-                Balance = 0,
-                IsActive = true
+                Balance = 1,
+                IsActive = true,
+                CreatedAt = DateTime.Now,
+                CreatedByUserId = null
             };
 
             return await _repo
@@ -118,6 +117,7 @@ namespace TMS.Application.Services.Accounts
                 Id = account.Id,
                 Number = account.Number,
                 Balance = account.Balance,
+                IsActive = account.IsActive,
                 // بيانات الشخص
                 FirstName = account.Person?.FirstName ?? string.Empty,
                 LastName = account.Person?.LastName ?? string.Empty,

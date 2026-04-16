@@ -39,7 +39,7 @@ namespace TMS.API.Controllers.Accounts
                 || !accountToAdd.Password.Any(ch => char.IsLower(ch))
                 || !accountToAdd.Password.Any(ch => char.IsUpper(ch)))
             {
-                return BadRequest("يجب أن تتكون كلمة المرور الجديدة من ثمان خانات على الأقل و حرف صغير و حرف كبير");
+                return BadRequest("يجب أن تتكون كلمة المرور الجديدة من 8 خانات على الأقل و حرف صغير و حرف كبير");
             }
 
             if (accountToAdd.Password != accountToAdd.ConfirmPassword)
@@ -87,7 +87,7 @@ namespace TMS.API.Controllers.Accounts
 
             return result
                 ? Ok("تم تعديل بيانات الحساب بنجاح")
-                : Problem("حدثت مشكلة عند الإتصال بالخادم أثناء التعديل");
+                : Problem("فشل تعديل الحساب، قد يكون الحساب غير موجود أو مرتبط بعمليات أخرى");
         }
 
         [HttpDelete("DeleteAccount/{id}")]
@@ -152,7 +152,7 @@ namespace TMS.API.Controllers.Accounts
 
             return result
                 ? Ok(activate ? "تم تنشيط الحساب" : "تم إلغاء تنشيط الحساب")
-                : Problem("تعذر تغيير حالة الحساب");
+                : Problem("فشل تغيير حالة الحساب، قد يكون الحساب غير موجود");
         }
 
         [HttpPut("ChangePassword")]
@@ -171,7 +171,7 @@ namespace TMS.API.Controllers.Accounts
                 || !changePasswordDto.NewPassword.Any(ch => char.IsLower(ch))
                 || !changePasswordDto.NewPassword.Any(ch => char.IsUpper(ch)))
             {
-                return BadRequest("يجب أن تتكون كلمة المرور الجديدة من ثمان خانات على الأقل و حرف صغير و حرف كبير");
+                return BadRequest("يجب أن تتكون كلمة المرور الجديدة من 8 خانات على الأقل و حرف صغير و حرف كبير");
             }
 
             if (changePasswordDto.NewPassword != changePasswordDto.ConfirmPassword)
@@ -187,7 +187,7 @@ namespace TMS.API.Controllers.Accounts
 
             return result
                 ? Ok("تم تغيير كلمة المرور بنجاح")
-                : Problem("تعذر تغيير كلمة المرور، تأكد من صحة بيانات الحساب");
+                : Problem("فشل تغيير كلمة المرور، قد يكون الحساب غير موجود");
         }
 
     }

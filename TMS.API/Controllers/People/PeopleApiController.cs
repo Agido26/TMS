@@ -22,7 +22,7 @@ namespace TMS.API.Controllers.People
         public async Task<ActionResult<PersonDTO>> AddPerson(PersonToAddDTO personToAdd)
         {
             if (personToAdd is null || string.IsNullOrWhiteSpace(personToAdd.FirstName) || string.IsNullOrWhiteSpace(personToAdd.LastName) 
-                || string.IsNullOrWhiteSpace(personToAdd.Email) || personToAdd.Age < 18)
+                || string.IsNullOrWhiteSpace(personToAdd.Email))
             {
                 return BadRequest($"البيانات المدخلة غير صحيحة");
             }
@@ -42,7 +42,7 @@ namespace TMS.API.Controllers.People
         public async Task<ActionResult<PersonDTO>> UpdatePerson(PersonToUpdateDTO personToUpdate)
         {
             if (personToUpdate is null || string.IsNullOrWhiteSpace(personToUpdate.FirstName) || string.IsNullOrWhiteSpace(personToUpdate.LastName)
-                || string.IsNullOrWhiteSpace(personToUpdate.Email) || personToUpdate.Age < 18)
+                || string.IsNullOrWhiteSpace(personToUpdate.Email))
             {
                 return BadRequest($"البيانات المدخلة غير صحيحة");
             }
