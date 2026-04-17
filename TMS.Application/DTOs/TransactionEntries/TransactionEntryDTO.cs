@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using TMS.Application.DTOs.Transactions;
+using TMS.Application.DTOs.Accounts;
 using TMS.Domain.Enums.TransactionEntries;
 
 namespace TMS.Application.DTOs.TransactionEntries
@@ -11,11 +12,15 @@ namespace TMS.Application.DTOs.TransactionEntries
     public class TransactionEntryDTO
     {
         public int Id { get; set; }
+       
         public EntryType EntryType { get; set; }
 
-        //TODO: change this with account object
-        public int AccountID { get; set; }
-        public TransactionDTO Transaction { get; set; } = new TransactionDTO();
+        public decimal Amount { get; set; }
+
+        public string AccountNumber { get; set; } = null!;
+        public int TransactionID { get; set; }
+
+       
 
     }
 }

@@ -7,7 +7,7 @@ using TMS.Application.Interfaces.Transactions;
 using TMS.Application.Services.Transactions;
 using TMS.Domain.Entities.Transactions;
 
-namespace TMS.API.Controllers
+namespace TMS.API.Controllers.Transactions
 {
     [Route("api/TransactionsApi")]
     [ApiController]
@@ -56,6 +56,7 @@ namespace TMS.API.Controllers
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         public async Task<ActionResult<TransactionDTO>> AddDeposit(DepositWithdrawDTO dto)
         {
+            
 
             int? NewId = await _TransactionService.DepositAsync(dto);
             if (NewId is null)
@@ -67,7 +68,7 @@ namespace TMS.API.Controllers
 
             return Created is null
                  ? Problem("حدثت مشكلة عند الإتصال بالخادم")
-                : CreatedAtRoute("GetById", new { id = NewId }, Created);
+                : CreatedAtRoute("GetTransactionById", new { id = NewId }, Created);
 
         }
 
@@ -87,7 +88,7 @@ namespace TMS.API.Controllers
 
             return Created is null
                  ? Problem("حدثت مشكلة عند الإتصال بالخادم")
-                : CreatedAtRoute("GetById", new { id = NewId }, Created);
+                : CreatedAtRoute("GetTransactionById", new { id = NewId }, Created);
         }
 
         [HttpPost("Transfer")]
@@ -106,7 +107,7 @@ namespace TMS.API.Controllers
 
             return Created is null
                  ? Problem("حدثت مشكلة عند الإتصال بالخادم")
-                : CreatedAtRoute("GetById", new { id = NewId }, Created);
+                : CreatedAtRoute("GetTransactionById", new { id = NewId }, Created);
         }
     }
 }
