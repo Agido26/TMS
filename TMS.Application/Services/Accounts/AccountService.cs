@@ -146,22 +146,26 @@ namespace TMS.Application.Services.Accounts
             return account is not null && await _repo.UpdateBalanceAsync(number, newBalance);
         }
 
-        public async Task<bool> LoginAsync(AccountToLoginDTO dto)
+        public async Task<AccountDTO?> LoginAsync(AccountToLoginDTO dto)
         {
             if (dto is null
                 || string.IsNullOrWhiteSpace(dto.Number) 
                 || string.IsNullOrWhiteSpace(dto.Password))
             {
-                return false;
+                return null;
             }
 
             var account = await _repo
                 .GetByNumberAsync(dto.Number);
 
-            if (account is null) return false;
+            if (account is null) return null;
 
-            return account.Number == dto.Number 
+            var result = account.Number == dto.Number 
                 && account.Password == dto.Password;
+
+            return result 
+                ? MapToDTO(account)
+                : null;
         }
 
     }

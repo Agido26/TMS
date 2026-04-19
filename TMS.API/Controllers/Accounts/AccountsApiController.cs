@@ -127,7 +127,7 @@ namespace TMS.API.Controllers.Accounts
                 : Ok(account);
         }
 
-        [HttpGet("GetAccountByNumber/{number}")]
+        [HttpGet("GetAccountByNumber/{number}", Name = "GetAccountByNumber")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         public async Task<ActionResult<AccountDTO>> GetAccountByNumber(string number)
@@ -212,7 +212,7 @@ namespace TMS.API.Controllers.Accounts
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status401Unauthorized)] 
-        public async Task<ActionResult> Login([FromBody] AccountToLoginDTO accountToLoginDTO)
+        public async Task<ActionResult<AccountDTO>> Login([FromBody] AccountToLoginDTO accountToLoginDTO)
         {
             if (accountToLoginDTO is null
                 || string.IsNullOrWhiteSpace(accountToLoginDTO.Number)
@@ -221,12 +221,12 @@ namespace TMS.API.Controllers.Accounts
                 return BadRequest("يجب تعبئة جميع الحقول المطلوبة");
             }
 
-            var result = await _accountService
+            var account = await _accountService
                 .LoginAsync(accountToLoginDTO);
 
-            return result
-                ? Ok("تم تسجيل الدخول بنجاح")
-                : Unauthorized("فشل تسجيل الدخول، رقم الحساب أو كلمة المرور خاطئة");
+            return account is null
+                ? Unauthorized("فشل تسجيل الدخول، رقم الحساب أو كلمة المرور خاطئة")
+                : CreatedAtRoute("GetAccountByNumber", new { number = accountToLoginDTO.Number }, account);
         }
 
     }
