@@ -16,3 +16,29 @@
         right: 0.75rem;
         top: 0.5rem;
     }
+
+.sidebar-link {
+    color: rgb(71 85 105);
+}
+
+.sidebar-link:hover {
+    background: rgb(248 250 252);
+}
+
+.sidebar-link.active {
+    background: rgb(239 246 255);
+    color: rgb(29 78 216);
+}
+
+.mobile-nav-link {
+    color: rgb(148 163 184);
+    transition: all 150ms ease;
+}
+
+.mobile-nav-link.active {
+    background: rgb(37 99 235);
+    border-radius: 1rem;
+    box-shadow: 0 10px 25px rgba(59, 130, 246, 0.3);
+    color: #fff;
+    transform: translateY(-0.5rem) scale(1.1);
+}

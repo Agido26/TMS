@@ -1,4 +1,7 @@
-﻿@inherits LayoutComponentBase
+@inherits LayoutComponentBase
+@using Microsoft.AspNetCore.Components.Routing
+
+
 
 <!-- TopNavBar -->
 <header class="fixed top-0 w-full z-50 bg-slate-50/80 dark:bg-slate-950/80 backdrop-blur-xl shadow-sm shadow-blue-900/5 no-border-tonal-shift">
@@ -17,37 +20,55 @@
 </div>
 </div>
 </header>
-<div class="flex pt-20">
+
 <!-- SideNavBar (Desktop Only) -->
-<aside class="hidden md:flex flex-col p-4 space-y-2 h-screen w-64 fixed right-0 bg-white dark:bg-slate-900 border-l-0 tonal-shift-bg-slate-100">
-<div class="mb-8 px-4 py-6">
-<div class="text-xl font-bold text-blue-700 mb-1">الخدمات المصرفية الخاصة</div>
-</div>
-<nav class="space-y-1">
-<a class="flex items-center space-x-reverse space-x-3 px-4 py-3 bg-blue-50 dark:bg-blue-900/20 text-blue-700 dark:text-blue-300 rounded-xl font-headline text-sm font-semibold active:-translate-x-1 duration-150" href="/dashboard">
-<span class="material-symbols-outlined" data-icon="dashboard">dashboard</span>
-<span>لوحة التحكم</span>
-</a>
-<a class="flex items-center space-x-reverse space-x-3 px-4 py-3 text-slate-600 dark:text-slate-400 font-headline text-sm font-semibold hover:bg-slate-50 dark:hover:bg-slate-800 transition-all active:-translate-x-1 duration-150" href="/send">
-<span class="material-symbols-outlined" data-icon="send">send</span>
-<span>إرسال أموال</span>
-</a>
-<a class="flex items-center space-x-reverse space-x-3 px-4 py-3 text-slate-600 dark:text-slate-400 font-headline text-sm font-semibold hover:bg-slate-50 dark:hover:bg-slate-800 transition-all active:-translate-x-1 duration-150" href="/receive">
-<span class="material-symbols-outlined" data-icon="qr_code_2">qr_code_2</span>
-<span>استلام أموال</span>
-</a>
-<a class="flex items-center space-x-reverse space-x-3 px-4 py-3 text-slate-600 dark:text-slate-400 font-headline text-sm font-semibold hover:bg-slate-50 dark:hover:bg-slate-800 transition-all active:-translate-x-1 duration-150" href="info">
-<span class="material-symbols-outlined" data-icon="person">person</span>
-<span>الملف الشخصي</span>
-</a>
-</nav>
-<div class="mt-auto px-4 pb-12">
-
-</div>
+<aside>
+    <div class="mb-8 px-4 py-6">
+            <div class="text-xl font-bold text-blue-700 mb-1">الخدمات المصرفية الخاصة</div>
+    </div>
+    <nav class="space-y-1">
+        <NavLink class="sidebar-link flex items-center space-x-reverse space-x-3 px-4 py-3 rounded-xl font-headline text-sm font-semibold transition-all active:-translate-x-1 duration-150" href="/dashboard" Match="NavLinkMatch.All">
+            <span class="material-symbols-outlined" data-icon="dashboard">dashboard</span>
+            <span>لوحة التحكم</span>
+        </NavLink>
+        <NavLink class="sidebar-link flex items-center space-x-reverse space-x-3 px-4 py-3 rounded-xl font-headline text-sm font-semibold transition-all active:-translate-x-1 duration-150" href="/send" Match="NavLinkMatch.All">
+            <span class="material-symbols-outlined" data-icon="send">send</span>
+            <span>إرسال أموال</span>
+        </NavLink>
+        <NavLink class="sidebar-link flex items-center space-x-reverse space-x-3 px-4 py-3 rounded-xl font-headline text-sm font-semibold transition-all active:-translate-x-1 duration-150" href="/receive" Match="NavLinkMatch.All">
+            <span class="material-symbols-outlined" data-icon="qr_code_2">qr_code_2</span>
+            <span>استلام أموال</span>
+        </NavLink>
+        <NavLink class="sidebar-link flex items-center space-x-reverse space-x-3 px-4 py-3 rounded-xl font-headline text-sm font-semibold transition-all active:-translate-x-1 duration-150" href="/info" Match="NavLinkMatch.All">
+            <span class="material-symbols-outlined" data-icon="person">person</span>
+            <span>الملف الشخصي</span>
+        </NavLink>
+    </nav>
+   
 </aside>
-</div>
-<!-- Main Content Canvas -->
 
+
+<!-- BottomNavBar (Mobile Only) -->
+<nav class="md:hidden fixed bottom-0 left-0 w-full z-50 bg-white/80 backdrop-blur-xl flex justify-around items-center px-4 pb-6 pt-3 shadow-[0_-10px_30px_rgba(0,0,0,0.04)] rounded-t-3xl">
+<NavLink class="mobile-nav-link flex flex-col items-center justify-center p-2" href="/dashboard" Match="NavLinkMatch.All">
+<span class="material-symbols-outlined">home</span>
+<span class="font-inter text-[10px] font-medium tracking-wide">الرئيسية</span>
+</NavLink>
+<NavLink class="mobile-nav-link flex flex-col items-center justify-center p-2" href="/send" Match="NavLinkMatch.All">
+<span class="material-symbols-outlined">payments</span>
+<span class="font-inter text-[10px] font-medium tracking-wide">إرسال</span>
+</NavLink>
+<NavLink class="mobile-nav-link flex flex-col items-center justify-center p-2" href="/receive" Match="NavLinkMatch.All">
+<span class="material-symbols-outlined">qr_code_scanner</span>
+<span class="font-inter text-[10px] font-medium tracking-wide">استلام</span>
+</NavLink>
+<NavLink class="mobile-nav-link flex flex-col items-center justify-center p-2" href="/info" Match="NavLinkMatch.All">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">account_circle</span>
+<span class="font-inter text-[10px] font-medium tracking-wide">الملف الشخصي</span>
+</NavLink>
+</nav>
+
+<!-- Main Content Canvas -->
 <div class="Page">
 @Body
 
