@@ -208,5 +208,26 @@ namespace TMS.API.Controllers.Accounts
                 : Problem("فشل تغيير كلمة المرور، قد يكون الحساب غير موجود");
         }
 
+        [HttpPost("Login")] 
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status401Unauthorized)] 
+        public async Task<ActionResult> Login([FromBody] AccountToLoginDTO accountToLoginDTO)
+        {
+            if (accountToLoginDTO is null
+                || string.IsNullOrWhiteSpace(accountToLoginDTO.Number)
+                || string.IsNullOrWhiteSpace(accountToLoginDTO.Password))
+            {
+                return BadRequest("يجب تعبئة جميع الحقول المطلوبة");
+            }
+
+            var result = await _accountService
+                .LoginAsync(accountToLoginDTO);
+
+            return result
+                ? Ok("تم تسجيل الدخول بنجاح")
+                : Unauthorized("فشل تسجيل الدخول، رقم الحساب أو كلمة المرور خاطئة");
+        }
+
     }
 }

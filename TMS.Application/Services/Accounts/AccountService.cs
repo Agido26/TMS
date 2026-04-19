@@ -3,6 +3,7 @@ using TMS.Application.DTOs.Accounts;
 using TMS.Application.Interfaces.Accounts;
 using TMS.Domain.Entities.Accounts;
 using TMS.Domain.Entities.People;
+using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace TMS.Application.Services.Accounts
 {
@@ -143,6 +144,24 @@ namespace TMS.Application.Services.Accounts
                 .GetByNumberAsync(number);
 
             return account is not null && await _repo.UpdateBalanceAsync(number, newBalance);
+        }
+
+        public async Task<bool> LoginAsync(AccountToLoginDTO dto)
+        {
+            if (dto is null
+                || string.IsNullOrWhiteSpace(dto.Number) 
+                || string.IsNullOrWhiteSpace(dto.Password))
+            {
+                return false;
+            }
+
+            var account = await _repo
+                .GetByNumberAsync(dto.Number);
+
+            if (account is null) return false;
+
+            return account.Number == dto.Number 
+                && account.Password == dto.Password;
         }
 
     }
