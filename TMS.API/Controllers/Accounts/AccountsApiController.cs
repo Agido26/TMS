@@ -127,6 +127,24 @@ namespace TMS.API.Controllers.Accounts
                 : Ok(account);
         }
 
+        [HttpGet("GetAccountByNumber/{number}")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        public async Task<ActionResult<AccountDTO>> GetAccountByNumber(string number)
+        {
+            if (string.IsNullOrWhiteSpace(number))
+            {
+                return BadRequest("يجب تعبئة جميع الحقول المطلوبة");
+            }
+
+            var account = await _accountService
+                .GetByNumberAsync(number);
+
+            return account is null
+                ? NotFound("لم يتم العثور على الحساب المطلوب")
+                : Ok(account);
+        }
+
         [HttpGet("GetAllAccounts")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         public async Task<ActionResult<IEnumerable<AccountDTO>>> GetAllAccounts()

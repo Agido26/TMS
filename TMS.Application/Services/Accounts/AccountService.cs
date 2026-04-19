@@ -29,7 +29,7 @@ namespace TMS.Application.Services.Accounts
             var account = new Account
             {
                 Person = person,
-                Number = DateTime.Now.Ticks.ToString()[^10..],
+                Number = DateTime.Now.Ticks.ToString()[^4..],
                 Password = dto.Password,
                 Balance = 0,
                 IsActive = true,
